@@ -1,280 +1,248 @@
-# Seerah RAG - Islamic Q&A System 🕌
+# Seerah RAG System - Islamic Q&A Assistant 🕌
 
-Modern RAG-based Question Answering system for Islamic texts powered by Groq AI, featuring 9 major Hadith collections and the Quran.
+An intelligent Question-Answering system for Islamic texts using Retrieval-Augmented Generation (RAG). Query authentic Hadith collections and Quran with AI-powered responses and precise source citations.
 
-## ✨ Features
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.10+-green.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-teal.svg)
+![React](https://img.shields.io/badge/React-18+-blue.svg)
 
-- 🤖 **Groq AI Integration** - Lightning-fast responses using Llama 3.3 70B
-- 📚 **Rich Islamic Database** - 9 Hadith collections + Complete Quran
-- 🎯 **No Hallucinations** - Answers only from authentic sources
-- 📖 **Source Citations** - Every answer includes references
-- 🌙 **Beautiful UI** - Modern dark theme with glassmorphism
-- ⚡ **Fast Retrieval** - ChromaDB vector database for instant search
-- 🔍 **Semantic Search** - Advanced embedding-based retrieval
+## 🌟 Features
 
-## 📦 Tech Stack
+- **Zero Hallucination**: Answers strictly from authentic Islamic sources
+- **Source Citations**: Every response includes detailed references with Arabic text
+- **47,000+ Documents**: 9 Hadith collections + Quran (English translation)
+- **Modern UI**: Beautiful dark-themed interface with glassmorphism effects
+- **Token-Efficient**: Uses Groq's `llama-3.1-8b-instant` model
+- **Fast Retrieval**: ChromaDB vector database for semantic search
+- **RESTful API**: Easy integration with other applications
 
-**Backend:**
-- **LLM**: Groq API (Llama 3.3 70B)
-- **Vector DB**: ChromaDB
-- **Embeddings**: Sentence Transformers (all-MiniLM-L6-v2)
-- **Framework**: FastAPI
-- **Package Manager**: UV (modern Python package management)
+## 📚 Data Sources
 
-**Frontend:**
-- **Framework**: React 18 + Vite 6
-- **Styling**: Tailwind CSS 3
-- **Icons**: Lucide React
-- **HTTP Client**: Axios
+### Hadith Collections
+- Sahih al-Bukhari (~7,563 hadiths)
+- Sahih Muslim (~7,563 hadiths)
+- Sunan Abu Dawood (~5,274 hadiths)
+- Jami` at-Tirmidhi (~3,956 hadiths)
+- Sunan an-Nasa'i (~5,758 hadiths)
+- Sunan Ibn Majah (~4,341 hadiths)
+- Muwatta Malik (~1,849 hadiths)
+- Musnad Ahmad (~27,647 hadiths)
+- Sunan al-Darimi (~3,567 hadiths)
+
+### Quran
+- Complete English translation (6,236 verses)
+- Arabic text included in responses
+
+**Total**: 47,179 documents
+
+## 🛠️ Tech Stack
+
+### Backend
+- **FastAPI** - High-performance web framework
+- **LangChain** - RAG orchestration
+- **ChromaDB** - Vector database
+- **Groq API** - LLM inference (llama-3.1-8b-instant)
+- **Sentence Transformers** - Embeddings (all-MiniLM-L6-v2)
+- **UV** - Fast Python package manager
+
+### Frontend
+- **React 18** - UI framework
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **Axios** - HTTP client
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-
 - Python 3.10+
 - Node.js 18+
 - UV package manager
-- Groq API key (free at [console.groq.com](https://console.groq.com))
+- Groq API key ([Get one free](https://console.groq.com))
 
 ### Installation
 
-#### 1. Install UV (if not already installed)
-
-**Windows (PowerShell):**
-```powershell
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+1. **Clone the repository**
+```bash
+git clone https://github.com/Abdul-Qahir-Jalali/Seerah-RAG_AI.git
+cd Seerah-RAG_AI
 ```
 
-**macOS/Linux:**
+2. **Set up environment variables**
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
+cp .env.example .env
+# Edit .env and add your GROQ_API_KEY
 ```
 
-#### 2. Clone and Setup Backend
+3. **Download Islamic data** (Hadith & Quran JSON files)
+```
+Place your JSON data files in:
+- data/ahadees/ (9 Hadith collection files)
+- data/quran/ (Quran translation file)
+```
 
+4. **Install backend dependencies**
 ```bash
-cd "e:\gmal project"
-
-# Create .env file from template
-Copy-Item .env.example .env
-
-# Edit .env and add your Groq API key
-# GROQ_API_KEY=your_actual_api_key_here
-
-# Sync dependencies (UV will create virtual environment automatically)
 uv sync
 ```
 
-#### 3. Ingest Data
+5. **Install frontend dependencies**
+```bash
+cd frontend
+npm install
+cd ..
+```
 
-This loads all Hadith collections and Quran into ChromaDB (takes 5-10 minutes):
-
+6. **Ingest data into vector database**
 ```bash
 uv run python scripts/ingest_data.py
 ```
+*This will process 47,000+ documents and may take 30-45 minutes.*
 
-You should see:
-```
-✓ Loaded X hadiths from Bukhari
-✓ Loaded X hadiths from Muslim
-...
-✓ Loaded X verses from Quran
-✅ Total documents loaded: XXXX
-```
-
-#### 4. Start Backend Server
-
+7. **Start the servers**
 ```bash
-uv run uvicorn src.api:app --reload --port 8000
-```
+# Option 1: One-command startup (Windows)
+start.bat
 
-Server runs at: `http://localhost:8000`
+# Option 2: Manual startup
+# Terminal 1 - Backend
+uv run uvicorn src.api:app --reload
 
-API docs available at: `http://localhost:8000/docs`
-
-#### 5. Setup and Start Frontend
-
-```bash
+# Terminal 2 - Frontend
 cd frontend
-
-# Install dependencies
-npm install
-
-# Start development server
 npm run dev
 ```
 
-Frontend runs at: `http://localhost:5173`
+8. **Open your browser**
+```
+http://localhost:5173/
+```
 
 ## 📖 Usage
 
-### Web Interface
-
-1. Open `http://localhost:5173` in your browser
-2. Type your question in the input box
-3. Get instant answers with source citations
-4. Click on sources to see full Hadith/Quran text with Arabic
-
 ### Example Questions
 
-- "What are the pillars of Islam?"
-- "Tell me about the first revelation to Prophet Muhammad"
-- "What does Surah Al-Fatiha say?"
-- "Describe the Battle of Badr"
-- "What are the signs of a hypocrite?"
+✅ **Specific Queries Work Best:**
+- "What did the Prophet say about prayer?"
+- "What is the importance of fasting in Ramadan?"
+- "What does the Quran say about patience?"
+- "What is the reward for charity?"
+- "What did the Prophet say about good manners?"
 
-### API Usage
+❌ **Avoid Very Broad Questions:**
+- "Explain Islamic jurisprudence" (too broad)
+- "What are the five pillars?" (may not be explicitly listed together in sources)
 
-**Query Endpoint:**
+### API Endpoints
+
+#### Health Check
 ```bash
-curl -X POST http://localhost:8000/api/query \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What are the pillars of Islam?"}'
+GET /api/health
 ```
 
-**Health Check:**
+#### Query
 ```bash
-curl http://localhost:8000/api/health
+POST /api/query
+Content-Type: application/json
+
+{
+  "question": "What did the Prophet say about prayer?"
+}
 ```
 
-**Statistics:**
+#### Statistics
 ```bash
-curl http://localhost:8000/api/stats
+GET /api/stats
 ```
 
-## 🏗️ Project Structure
+## 🎨 Screenshots
+
+*Coming soon - Add screenshots of your UI here*
+
+## 📁 Project Structure
 
 ```
-e:\gmal project\
-├── data/
-│   ├── ahadees/          # 9 Hadith collections (JSON)
-│   └── quran/            # Quran with translation (JSON)
+Seerah-RAG_AI/
 ├── src/
-│   ├── config.py         # Configuration management
-│   ├── data_ingestion.py # Data loading and parsing
-│   ├── embeddings.py     # Embedding generation
-│   ├── vector_store.py   # ChromaDB management
-│   ├── llm.py           # Groq LLM integration
-│   ├── rag_pipeline.py  # Complete RAG orchestration
-│   └── api.py           # FastAPI server
+│   ├── api.py              # FastAPI server
+│   ├── config.py           # Configuration
+│   ├── data_ingestion.py   # Data loading
+│   ├── embeddings.py       # Embedding generator
+│   ├── llm.py              # Groq LLM integration
+│   ├── rag_pipeline.py     # RAG orchestration
+│   └── vector_store.py     # ChromaDB manager
 ├── scripts/
-│   └── ingest_data.py   # Data ingestion script
+│   └── ingest_data.py      # Data ingestion script
 ├── frontend/
 │   ├── src/
-│   │   ├── App.jsx      # Main app component
-│   │   ├── components/  # React components
-│   │   └── index.css    # Tailwind styles
+│   │   ├── App.jsx         # Main chat interface
+│   │   └── components/     # React components
 │   └── package.json
-├── chroma_db/           # Vector database (created after ingestion)
-├── pyproject.toml       # UV dependencies
-└── .env                 # Environment variables
+├── data/                   # Data files (not in repo)
+│   ├── ahadees/            # Hadith collections
+│   ├── quran/              # Quran translation
+│   └── chroma_db/          # Vector database (auto-generated)
+├── .env.example            # Environment template
+├── pyproject.toml          # Python dependencies
+├── start.bat               # One-command startup (Windows)
+└── README.md
 ```
 
-## 🔧 Configuration
+## ⚙️ Configuration
 
-Edit `.env` file to customize:
+Edit `.env` file:
 
 ```env
 # Groq API
-GROQ_API_KEY=your_groq_api_key_here
+GROQ_API_KEY=your_api_key_here
 
-# Models
-EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-LLM_MODEL=llama-3.3-70b-versatile
+# LLM Configuration
+LLM_MODEL=llama-3.1-8b-instant
 LLM_TEMPERATURE=0.1
 
-# Database
-CHROMA_DB_PATH=./chroma_db
+# Vector Store
+CHROMA_PATH=./data/chroma_db
 CHROMA_COLLECTION_NAME=seerah_collection
 
-# API
-API_HOST=0.0.0.0
-API_PORT=8000
+# Embeddings
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
 ```
 
-## 📊 Data Sources
+## 🔒 Security
 
-### Hadith Collections (9)
-1. Sahih al-Bukhari
-2. Sahih Muslim
-3. Sunan Abu Dawud
-4. Jami` at-Tirmidhi
-5. Sunan an-Nasa'i
-6. Sunan Ibn Majah
-7. Muwatta Malik
-8. Musnad Ahmad
-9. Sunan ad-Darimi
+- `.env` file excluded from git (contains API keys)
+- Data files excluded (large JSON files)
+- ChromaDB excluded (generated locally)
+- Always use `.env.example` as template
 
-### Quran
-- Complete English translation
-- Arabic text included
-- Organized by Surah and Verse
+## 🤝 Contributing
 
-## 🎨 UI Features
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-- **Glassmorphism Design** - Modern frosted glass effect
-- **Dark Theme** - Islamic-inspired emerald/teal palette
-- **Responsive Layout** - Works on mobile and desktop
-- **Smooth Animations** - Elegant transitions
-- **Source Cards** - Expandable citations with Arabic text
-- **Real-time Loading** - Visual feedback during queries
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 🐛 Troubleshooting
+## 📝 License
 
-**Issue: "Could not load Groq API key"**
-- Make sure `.env` file exists and contains `GROQ_API_KEY`
-- Restart the server after updating `.env`
-
-**Issue: "No documents found in ChromaDB"**
-- Run the ingestion script: `uv run python scripts/ingest_data.py`
-
-**Issue: "Frontend can't connect to backend"**
-- Ensure backend is running on port 8000
-- Check Vite proxy configuration in `frontend/vite.config.js`
-
-**Issue: "UV command not found"**
-- Install UV: `powershell -c "irm https://astral.sh/uv/install.ps1 | iex"`
-- Restart your terminal
-
-## 📝 Development
-
-### Adding More Data
-
-1. Add JSON files to `data/ahadees/` or `data/quran/`
-2. Update `data_ingestion.py` if needed
-3. Re-run ingestion: `uv run python scripts/ingest_data.py`
-
-### Modifying UI
-
-Edit files in `frontend/src/`:
-- `App.jsx` - Main layout and logic
-- `components/ChatMessage.jsx` - Message display
-- `components/SourceCard.jsx` - Source citations
-- `index.css` - Styles and animations
-
-### Changing LLM Model
-
-Edit `.env`:
-```env
-LLM_MODEL=llama-3.1-70b-versatile  # or other Groq models
-```
-
-Available Groq models:
-- `llama-3.3-70b-versatile` (recommended)
-- `llama-3.1-70b-versatile`
-- `mixtral-8x7b-32768`
-
-## 📄 License
-
-This project is for educational purposes. Islamic texts are public domain.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🙏 Acknowledgments
 
+- Hadith data from authentic Islamic sources
+- Quran translation data
 - Groq for providing fast LLM inference
-- OpenAI for embedding models
+- LangChain for RAG framework
 - ChromaDB for vector storage
-- All contributors to Islamic text digitization
+
+## 📧 Contact
+
+Abdul Qahir Jalali - [@Abdul-Qahir-Jalali](https://github.com/Abdul-Qahir-Jalali)
+
+Project Link: [https://github.com/Abdul-Qahir-Jalali/Seerah-RAG_AI](https://github.com/Abdul-Qahir-Jalali/Seerah-RAG_AI)
 
 ---
 
-**Built with ❤️ for the Muslim community**
+**Note**: This system prioritizes accuracy over completeness. If a specific answer isn't found in the sources, the AI will honestly say so rather than hallucinate. This is a feature, not a bug! 🌙
